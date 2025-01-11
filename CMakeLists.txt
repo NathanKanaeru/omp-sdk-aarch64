@@ -26,7 +26,8 @@ elseif(UNIX)
 			-mfpmath=sse
 		)
 	else()
-		if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm")
+		if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
+                        set(TARGET_BUILD_ARCH armv8)
 			target_compile_options(OMP-SDK INTERFACE "-mfpu=neon")
 		endif()
 		if(TARGET_BUILD_ARCH)
@@ -54,12 +55,6 @@ target_compile_definitions(OMP-SDK INTERFACE
 	nssv_CONFIG_SELECT_STRING_VIEW=nssv_STRING_VIEW_NONSTD
 	span_CONFIG_SELECT_SPAN=span_SPAN_NONSTD
 )
-
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
-	target_compile_definitions(OMP-SDK INTERFACE GLM_FORCE_SSE2)
-else()
-	target_compile_definitions(OMP-SDK INTERFACE GLM_FORCE_NEON)
-endif()
 
 target_include_directories(OMP-SDK INTERFACE include/)
 
